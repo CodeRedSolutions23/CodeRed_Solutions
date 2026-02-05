@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeRed Solutions - Professional IT Services in Eswatini</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#1e40af',
+secondary: '#0f4c81'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+},
+fontFamily: {
+'sans': ['Inter', 'system-ui', 'sans-serif']
+}
+}
+}
+}
+</script>
+<style>
+:where([class^="ri-"])::before {
+content: "\f3c2";
+}
+.hero-gradient {
+background: linear-gradient(135deg, #0f4c81 0%, #1e40af 50%, #0891b2 100%);
+}
+.tech-pattern {
+background-image: radial-gradient(circle at 25% 25%, rgba(30, 64, 175, 0.1) 0%, transparent 50%),
+radial-gradient(circle at 75% 75%, rgba(8, 145, 178, 0.1) 0%, transparent 50%);
+}
+.page {
+display: none;
+}
+.page.active {
+display: block;
+}
+.nav-link {
+position: relative;
+transition: all 0.3s ease;
+}
+.nav-link:hover {
+color: #67e8f9;
+}
+.nav-link.active::after {
+content: '';
+position: absolute;
+bottom: -10px;
+left: 0;
+right: 0;
+height: 3px;
+background: #ffffff;
+border-radius: 2px;
+}
+.chatbot-container {
+position: fixed;
+bottom: 20px;
+right: 20px;
+z-index: 1000;
+}
+.chatbot-widget {
+width: 350px;
+height: 500px;
+background: white;
+border-radius: 16px;
+box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+display: none;
+flex-direction: column;
+overflow: hidden;
+border: 1px solid #e5e7eb;
+}
+.chatbot-widget.active {
+display: flex;
+animation: slideInUp 0.3s ease-out;
+}
+.chatbot-header {
+background: linear-gradient(135deg, #1e40af, #0f4c81);
+padding: 16px;
+color: white;
+}
+.chatbot-messages {
+flex: 1;
+overflow-y: auto;
+padding: 16px;
+display: flex;
+flex-direction: column;
+gap: 12px;
+background: #f9fafb;
+}
+.chatbot-input-area {
+padding: 16px;
+border-top: 1px solid #e5e7eb;
+background: white;
+}
+.message {
+max-width: 80%;
+padding: 12px 16px;
+border-radius: 18px;
+word-wrap: break-word;
+}
+.message.bot {
+background: #e5e7eb;
+color: #374151;
+align-self: flex-start;
+}
+.message.user {
+background: #1e40af;
+color: white;
+align-self: flex-end;
+}
+.chatbot-toggle {
+width: 60px;
+height: 60px;
+border-radius: 50%;
+background: linear-gradient(135deg, #1e40af, #0f4c81);
+color: white;
+border: none;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 24px;
+box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
+transition: all 0.3s ease;
+}
+.chatbot-toggle:hover {
+transform: scale(1.1);
+box-shadow: 0 12px 30px rgba(30, 64, 175, 0.4);
+}
+@keyframes slideInUp {
+from {
+transform: translateY(20px);
+opacity: 0;
+}
+to {
+transform: translateY(0);
+opacity: 1;
+}
+}
+@keyframes bounce {
+0%, 20%, 50%, 80%, 100% {
+transform: translateY(0);
+}
+40% {
+transform: translateY(-10px);
+}
+60% {
+transform: translateY(-5px);
+}
+}
+.chatbot-toggle.pulse {
+animation: bounce 2s infinite;
+}
+</style>
+</head>
+<body class="bg-white font-sans">
+<!-- Header -->
+<header class="hero-gradient shadow-lg border-b sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3 sm:space-x-4 cursor-pointer" onclick="showPage('home')">
+<img src="https://static.readdy.ai/image/0c620877c55c589905a6ff5b1c5bedeb/9eeb458ee0e24da8b60be02283ff7ed3.png" alt="CodeRed Solutions" class="w-12 h-12 sm:w-16 sm:h-16 object-contain">
+<div>
+<h1 class="text-xl sm:text-3xl font-bold text-white">CodeRed Solutions</h1>
+</div>
+</div>
+<nav class="hidden md:flex items-center space-x-6 lg:space-x-10">
+<a href="#" class="nav-link active text-white font-medium text-sm lg:text-lg hover:text-cyan-300" onclick="showPage('home')">Home</a>
+<a href="#" class="nav-link text-white font-medium text-sm lg:text-lg hover:text-cyan-300" onclick="showPage('about')">About</a>
+<a href="#" class="nav-link text-white font-medium text-sm lg:text-lg hover:text-cyan-300" onclick="showPage('services')">Services</a>
+<a href="#" class="nav-link text-white font-medium text-sm lg:text-lg hover:text-cyan-300" onclick="showPage('team')">Team</a>
+<a href="#" class="nav-link text-white font-medium text-sm lg:text-lg hover:text-cyan-300" onclick="showPage('contact')">Contact</a>
+</nav>
+<div class="flex items-center space-x-2 sm:space-x-4">
+<button class="hidden sm:block bg-white text-secondary px-4 lg:px-8 py-2 lg:py-3 !rounded-button whitespace-nowrap font-semibold text-sm lg:text-lg hover:bg-gray-100 transition-colors" onclick="showPage('contact')">
+Get Quote
+</button>
+<button class="md:hidden p-2" onclick="toggleMobileMenu()">
+<i class="ri-menu-line text-2xl sm:text-3xl text-white"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="hidden md:hidden bg-white/10 backdrop-blur-sm border-t border-white/20">
+<nav class="px-4 py-4 space-y-2">
+<a href="#" class="block py-3 px-4 text-white font-medium text-base hover:text-cyan-300 hover:bg-white/10 rounded-lg transition-all" onclick="showPage('home')">Home</a>
+<a href="#" class="block py-3 px-4 text-white font-medium text-base hover:text-cyan-300 hover:bg-white/10 rounded-lg transition-all" onclick="showPage('about')">About</a>
+<a href="#" class="block py-3 px-4 text-white font-medium text-base hover:text-cyan-300 hover:bg-white/10 rounded-lg transition-all" onclick="showPage('services')">Services</a>
+<a href="#" class="block py-3 px-4 text-white font-medium text-base hover:text-cyan-300 hover:bg-white/10 rounded-lg transition-all" onclick="showPage('team')">Team</a>
+<a href="#" class="block py-3 px-4 text-white font-medium text-base hover:text-cyan-300 hover:bg-white/10 rounded-lg transition-all" onclick="showPage('contact')">Contact</a>
+<div class="pt-4 border-t border-white/20 mt-4">
+<button class="w-full bg-white text-secondary py-3 !rounded-button font-semibold text-base hover:bg-gray-100 transition-colors" onclick="showPage('contact')">
+Get Quote
+</button>
+</div>
+</nav>
+</div>
+</div>
+</header>
+<!-- Home Page -->
+<div id="home" class="page active">
+<!-- Hero Section -->
+<section class="hero-gradient relative min-h-[500px] sm:min-h-[600px] lg:min-h-[700px] flex items-center">
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://readdy.ai/api/search-image?query=professional%20IT%20technology%20workspace%20with%20blue%20and%20teal%20color%20scheme%2C%20modern%20office%20environment%20with%20computer%20monitors%2C%20servers%2C%20networking%20equipment%2C%20digital%20transformation%20concept%2C%20tech%20professionals%20working%2C%20clean%20corporate%20atmosphere%2C%20futuristic%20technology%20background%20with%20matching%20blue%20teal%20gradient%20colors&width=1920&height=700&seq=herobg001&orientation=landscape'); background-blend-mode: overlay; background-color: rgba(15, 76, 129, 0.85);"></div>
+<div class="relative max-w-7xl mx-auto px-4 sm:px-6 w-full mobile-hero-content">
+<div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+<div class="text-white text-center lg:text-left">
+<h2 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight">Driving Digital <span class="text-cyan-300">Transformation</span></h2>
+<p class="text-base sm:text-lg lg:text-xl text-gray-200 mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0">Professional Information Technology solutions designed to help businesses and organizations operate efficiently in the digital era.</p>
+<div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+<button class="bg-primary text-white px-6 sm:px-8 py-3 sm:py-4 !rounded-button whitespace-nowrap font-semibold text-base sm:text-lg hover:bg-red-700 transition-colors" onclick="showPage('services')">
+Explore Services
+</button>
+<button class="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 !rounded-button whitespace-nowrap font-semibold text-base sm:text-lg hover:bg-white hover:text-secondary transition-colors" onclick="showPage('contact')">
+Get Started
+</button>
+</div>
+<div class="flex items-center justify-center lg:justify-start space-x-4 sm:space-x-8 mt-8 sm:mt-12 hero-stats">
+<div class="text-center">
+<div class="text-2xl sm:text-3xl font-bold">3+</div>
+<div class="text-gray-300 text-xs sm:text-sm">Years Experience</div>
+</div>
+<div class="text-center">
+<div class="text-2xl sm:text-3xl font-bold">100+</div>
+<div class="text-gray-300 text-xs sm:text-sm">Happy Clients</div>
+</div>
+<div class="text-center">
+<div class="text-2xl sm:text-3xl font-bold">24/7</div>
+<div class="text-gray-300 text-xs sm:text-sm">Support</div>
+</div>
+</div>
+</div>
+<div class="hidden lg:block">
+<img src="https://readdy.ai/api/search-image?query=modern%20professional%20IT%20workspace%20with%20multiple%20computer%20monitors%20displaying%20code%20and%20network%20diagrams%2C%20sleek%20office%20environment%2C%20technology%20equipment%2C%20servers%20and%20networking%20devices%2C%20professional%20atmosphere%2C%20high-tech%20digital%20transformation%20concept%2C%20clean%20minimalist%20design&width=600&height=500&seq=hero002&orientation=portrait"
+alt="IT Solutions"
+class="w-full h-80 lg:h-96 object-cover rounded-2xl shadow-2xl object-top">
+</div>
+</div>
+</div>
+</section>
+<!-- Services Overview -->
+<section class="py-12 sm:py-16 lg:py-20 bg-gray-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6">
+<div class="text-center mb-12 sm:mb-16">
+<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-secondary mb-3 sm:mb-4">Comprehensive IT Solutions</h2>
+<p class="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-4">From software development to network infrastructure, we provide end-to-end technology solutions for businesses of all sizes.</p>
+</div>
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+<div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+<div class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-4 sm:mb-6">
+<i class="ri-code-line text-white text-xl sm:text-2xl"></i>
+</div>
+<h3 class="text-lg sm:text-xl font-bold text-secondary mb-3 sm:mb-4">Software Development</h3>
+<p class="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">Custom web applications, mobile apps, and enterprise software solutions.</p>
+<ul class="space-y-2 text-xs sm:text-sm text-gray-700">
+<li class="flex items-center space-x-2">
+<i class="ri-check-line text-primary text-sm"></i>
+<span>Web Applications</span>
+</li>
+<li class="flex items-center space-x-2">
+<i class="ri-check-line text-primary text-sm"></i>
+<span>Mobile Development</span>
+</li>
+<li class="flex items-center space-x-2">
+<i class="ri-check-line text-primary text-sm"></i>
+<span>Website Design</span>
+</li>
+</ul>
+</div>
+<div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+<div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-6">
+<i class="ri-wifi-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Network Solutions</h3>
+<p class="text-gray-600 mb-4">Complete network infrastructure setup, management, and security.</p>
+<ul class="space-y-2 text-sm text-gray-700">
+<li class="flex items-center space-x-2">
+<i class="ri-check-line text-primary"></i>
+<span>LAN/WAN Setup</span>
+</li>
+<li class="flex items-center space-x-2">
+<i class="ri-check-line text-primary"></i>
+<span>Wireless Networks</span>
+</li>
+<li class="flex items-center space-x-2">
+<i class="ri-check-line text-primary"></i>
+<span>Network Security</span>
+</li>
+</ul>
+</div>
+<div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+<div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-6">
+<i class="ri-customer-service-2-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">IT Support</h3>
+<p class="text-gray-600 mb-4">24/7 technical support and system maintenance services.</p>
+<ul class="space-y-2 text-sm text-gray-700">
+<li class="flex items-center space-x-2">
+<i class="ri-check-line text-primary"></i>
+<span>Technical Support</span>
+</li>
+<li class="flex items-center space-x-2">
+<i class="ri-check-line text-primary"></i>
+<span>System Maintenance</span>
+</li>
+<li class="flex items-center space-x-2">
+<i class="ri-check-line text-primary"></i>
+<span>IT Consulting</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="text-center mt-8 sm:mt-12">
+<button class="bg-secondary text-white px-6 sm:px-8 py-3 sm:py-4 !rounded-button whitespace-nowrap font-semibold text-base sm:text-lg hover:bg-gray-800 transition-colors" onclick="showPage('services')">
+View All Services
+</button>
+</div>
+</div>
+</section>
+<!-- Company Overview -->
+<section class="py-12 sm:py-16 lg:py-20 bg-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6">
+<div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+<div class="order-2 lg:order-1">
+<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-secondary mb-4 sm:mb-6 text-center lg:text-left">About CodeRed Solutions</h2>
+<p class="text-sm sm:text-base lg:text-lg text-gray-700 mb-4 sm:mb-6 leading-relaxed text-center lg:text-left">
+CodeRed Solutions is a professional Information Technology company providing comprehensive and innovative technology solutions designed to help individuals, businesses, and organizations operate efficiently in the digital era.
+</p>
+<p class="text-sm sm:text-base lg:text-lg text-gray-700 mb-6 sm:mb-8 leading-relaxed text-center lg:text-left">
+Established with a vision to drive digital transformation, we focus on providing high-quality, reliable, and cost-effective IT services tailored to meet client needs across Eswatini and beyond.
+</p>
+<div class="text-center lg:text-left">
+<button class="bg-primary text-white px-6 sm:px-8 py-3 sm:py-4 !rounded-button whitespace-nowrap font-semibold text-base sm:text-lg hover:bg-red-700 transition-colors" onclick="showPage('about')">
+Learn More About Us
+</button>
+<div class="flex items-center justify-center lg:justify-start space-x-4 mt-6">
+<p class="text-gray-600 font-medium">Follow us:</p>
+<div class="flex space-x-3">
+<a href="https://wa.me/26876617019" target="_blank" class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+<i class="ri-whatsapp-fill text-lg"></i>
+</a>
+<a href="https://www.facebook.com/profile.php?id=61567758114395" target="_blank" class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+<i class="ri-facebook-fill text-lg"></i>
+</a>
+<a href="https://instagram.com/coderedsolutions_sz" target="_blank" class="w-10 h-10 bg-pink-500 text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors">
+<i class="ri-instagram-fill text-lg"></i>
+</a>
+<a href="https://www.linkedin.com/company/codered-solutions23/" target="_blank" class="w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center hover:bg-blue-800 transition-colors">
+<i class="ri-linkedin-fill text-lg"></i>
+</a>
+<a href="https://www.tiktok.com/@codered.solutions?_r=1&_t=ZS-93QmEdwYmo4" target="_blank" class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors">
+<i class="ri-tiktok-fill text-lg"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class="order-1 lg:order-2">
+<img src="https://readdy.ai/api/search-image?query=professional%20IT%20company%20office%20in%20Eswatini%20with%20modern%20technology%20equipment%2C%20computer%20servers%2C%20networking%20devices%2C%20clean%20corporate%20environment%2C%20team%20of%20IT%20professionals%20working%20together%2C%20African%20business%20setting%2C%20professional%20atmosphere&width=600&height=500&seq=about004&orientation=portrait"
+alt="CodeRed Solutions Office"
+class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-xl shadow-lg object-top">
+</div>
+</div>
+</div>
+</section>
+<!-- Why Choose Us -->
+<section class="py-20 bg-gray-50">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-secondary mb-4">Why Choose CodeRed Solutions</h2>
+<p class="text-xl text-gray-600">We combine expertise, innovation, and local knowledge to deliver exceptional IT solutions.</p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-award-line text-white text-3xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Expert Team</h3>
+<p class="text-gray-600">Skilled and certified IT professionals with extensive experience across multiple technology domains.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-price-tag-3-line text-white text-3xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Competitive Pricing</h3>
+<p class="text-gray-600">Affordable solutions that deliver maximum value, with flexible service agreements to suit your budget.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-map-pin-line text-white text-3xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Local Expertise</h3>
+<p class="text-gray-600">Based in Eswatini with deep understanding of local business needs and international quality standards.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-24-hours-line text-white text-3xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">24/7 Support</h3>
+<p class="text-gray-600">Round-the-clock technical support to ensure your systems run smoothly without interruption.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Call to Action -->
+<section class="py-20 bg-secondary">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<h2 class="text-4xl font-bold text-white mb-6">Ready to Transform Your Business?</h2>
+<p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Let's discuss how our IT solutions can help drive your business forward and achieve your digital transformation goals.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-primary text-white px-10 py-4 !rounded-button whitespace-nowrap font-semibold text-lg hover:bg-red-700 transition-colors" onclick="showPage('contact')">
+Get Free Consultation
+</button>
+<button class="border-2 border-white text-white px-10 py-4 !rounded-button whitespace-nowrap font-semibold text-lg hover:bg-white hover:text-secondary transition-colors" onclick="showPage('services')">
+View Our Services
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- About Us Page -->
+<div id="about" class="page">
+<!-- Hero Section -->
+<section class="hero-gradient relative min-h-[500px] flex items-center">
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://readdy.ai/api/search-image?query=professional%20African%20business%20leaders%20in%20modern%20corporate%20boardroom%20discussing%20company%20strategy%2C%20executive%20meeting%20with%20charts%20and%20presentations%2C%20leadership%20team%20collaboration%2C%20diverse%20professionals%20in%20business%20suits%2C%20modern%20office%20interior%20with%20blue%20lighting%20accents%2C%20company%20vision%20and%20mission%20concept%2C%20corporate%20success%20atmosphere&width=1920&height=500&seq=aboutherobg002&orientation=landscape'); background-blend-mode: overlay; background-color: rgba(15, 76, 129, 0.85);"></div>
+<div class="relative max-w-7xl mx-auto px-6 w-full text-center">
+<h1 class="text-5xl lg:text-6xl font-bold text-white mb-6">About <span class="text-red-400">CodeRed Solutions</span></h1>
+<p class="text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">Driving digital transformation through innovative IT solutions and professional expertise since our establishment in Eswatini.</p>
+</div>
+</section>
+<!-- Company Introduction -->
+<section class="py-20 bg-white">
+<div class="max-w-7xl mx-auto px-6">
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+<div>
+<h2 class="text-4xl font-bold text-secondary mb-8">Company Introduction</h2>
+<p class="text-lg text-gray-700 mb-6 leading-relaxed">
+CodeRed Solutions is a professional Information Technology (IT) company that provides comprehensive and innovative technology solutions designed to help individuals, businesses, and organizations operate efficiently in the digital era.
+</p>
+<p class="text-lg text-gray-700 mb-8 leading-relaxed">
+Established with a vision to drive digital transformation, CodeRed Solutions focuses on providing high-quality, reliable, and cost-effective IT services tailored to meet client needs. Our expertise spans computer maintenance, printer servicing, network installations, software development, and digital support systems.
+</p>
+<div class="grid grid-cols-2 gap-6">
+<div class="text-center p-4 bg-gray-50 rounded-lg">
+<div class="text-3xl font-bold text-primary mb-2">5+</div>
+<div class="text-gray-600 font-medium">Years Experience</div>
+</div>
+<div class="text-center p-4 bg-gray-50 rounded-lg">
+<div class="text-3xl font-bold text-primary mb-2">100+</div>
+<div class="text-gray-600 font-medium">Projects Completed</div>
+</div>
+</div>
+</div>
+<div>
+<img src="https://readdy.ai/api/search-image?query=professional%20IT%20company%20office%20with%20modern%20technology%20equipment%2C%20computer%20servers%2C%20networking%20devices%2C%20clean%20corporate%20environment%2C%20team%20of%20IT%20professionals%20working%2C%20digital%20transformation%20workspace%2C%20Eswatini%20business%20setting&width=600&height=500&seq=about003&orientation=portrait"
+alt="CodeRed Solutions Office"
+class="w-full h-96 object-cover rounded-xl shadow-lg object-top">
+</div>
+</div>
+</div>
+</section>
+<!-- Mission & Vision -->
+<section class="py-20 bg-gray-50">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-secondary mb-4">Mission & Vision</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">Our commitment to excellence drives everything we do, from our mission to serve clients effectively to our vision of becoming a leading IT solutions provider.</p>
+</div>
+<div class="grid md:grid-cols-2 gap-8 mb-16">
+<div class="bg-gradient-to-br from-primary to-secondary text-white p-10 rounded-xl">
+<div class="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-6">
+<i class="ri-target-line text-white text-2xl"></i>
+</div>
+<h3 class="text-2xl font-bold mb-6">Our Mission</h3>
+<p class="text-lg leading-relaxed">
+To deliver professional and affordable IT services that empower clients to maximize productivity, improve performance, and stay connected through technology.
+</p>
+</div>
+<div class="bg-gradient-to-br from-secondary to-gray-800 text-white p-10 rounded-xl">
+<div class="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-6">
+<i class="ri-eye-line text-white text-2xl"></i>
+</div>
+<h3 class="text-2xl font-bold mb-6">Our Vision</h3>
+<p class="text-lg leading-relaxed">
+To become a leading IT solutions provider recognized for innovation, quality, and customer satisfaction across Eswatini and beyond.
+</p>
+</div>
+</div>
+<!-- Core Values -->
+<div class="bg-white p-12 rounded-xl shadow-sm">
+<h3 class="text-3xl font-bold text-secondary mb-12 text-center">Our Core Values</h3>
+<div class="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-shield-check-line text-white text-2xl"></i>
+</div>
+<h4 class="text-lg font-bold text-secondary mb-3">Integrity</h4>
+<p class="text-sm text-gray-600 leading-relaxed">We uphold honesty, transparency, and accountability in all our dealings with clients and partners.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-lightbulb-line text-white text-2xl"></i>
+</div>
+<h4 class="text-lg font-bold text-secondary mb-3">Innovation</h4>
+<p class="text-sm text-gray-600 leading-relaxed">We continuously adopt new technologies to enhance our service delivery and stay ahead of trends.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-star-line text-white text-2xl"></i>
+</div>
+<h4 class="text-lg font-bold text-secondary mb-3">Excellence</h4>
+<p class="text-sm text-gray-600 leading-relaxed">We strive to deliver top-quality results in every project, exceeding client expectations.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-user-heart-line text-white text-2xl"></i>
+</div>
+<h4 class="text-lg font-bold text-secondary mb-3">Customer Focus</h4>
+<p class="text-sm text-gray-600 leading-relaxed">We prioritize our clients' satisfaction and long-term success above all else.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-team-line text-white text-2xl"></i>
+</div>
+<h4 class="text-lg font-bold text-secondary mb-3">Teamwork</h4>
+<p class="text-sm text-gray-600 leading-relaxed">We work collaboratively to achieve common goals and sustainable growth for all.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Choose Us -->
+<section class="py-20 bg-white">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-secondary mb-4">Why Choose CodeRed Solutions</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">We combine expertise, innovation, and local knowledge to deliver exceptional IT solutions that drive business success.</p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="bg-gray-50 p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-award-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Qualified Staff</h3>
+<p class="text-gray-600 leading-relaxed">Our team is composed of skilled and certified IT experts with practical experience across multiple technology domains.</p>
+</div>
+<div class="bg-gray-50 p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-price-tag-3-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Competitive Pricing</h3>
+<p class="text-gray-600 leading-relaxed">We deliver value for money with affordably priced services and flexible agreements to suit various budgets.</p>
+</div>
+<div class="bg-gray-50 p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-trophy-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Proven Track Record</h3>
+<p class="text-gray-600 leading-relaxed">Our growing portfolio and repeat clients demonstrate our consistency, reliability, and ability to exceed expectations.</p>
+</div>
+<div class="bg-gray-50 p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-map-pin-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Local Expertise</h3>
+<p class="text-gray-600 leading-relaxed">Proudly Eswatini-based with deep understanding of local business needs and international quality standards.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Services Page -->
+<div id="services" class="page">
+<!-- Hero Section -->
+<section class="hero-gradient relative min-h-[500px] flex items-center">
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://readdy.ai/api/search-image?query=advanced%20technology%20services%20concept%20with%20network%20infrastructure%2C%20cloud%20computing%20servers%2C%20cybersecurity%20shields%2C%20software%20development%20icons%2C%20modern%20data%20center%20environment%2C%20professional%20IT%20services%20visualization%2C%20blue%20and%20teal%20technology%20theme%2C%20digital%20innovation%20atmosphere&width=1920&height=500&seq=servicesherobg001&orientation=landscape'); background-blend-mode: overlay; background-color: rgba(15, 76, 129, 0.85);"></div>
+<div class="relative max-w-7xl mx-auto px-6 w-full text-center">
+<h1 class="text-5xl lg:text-6xl font-bold text-white mb-6">Our <span class="text-red-400">Services</span></h1>
+<p class="text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">Comprehensive IT solutions designed to drive your business forward with cutting-edge technology and expert support.</p>
+</div>
+</section>
+<!-- Services Grid -->
+<section class="py-20 bg-white">
+<div class="max-w-7xl mx-auto px-6">
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-all hover:-translate-y-2">
+<div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-6">
+<i class="ri-code-line text-white text-2xl"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Software Development</h3>
+<p class="text-gray-600 mb-6">Transform your business ideas into powerful digital solutions with our custom software development services.</p>
+<ul class="space-y-3 text-gray-700">
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Custom web applications tailored to your business needs</span>
+</li>
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Mobile app development for iOS and Android platforms</span>
+</li>
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Website design and hosting services with modern UI/UX</span>
+</li>
+</ul>
+</div>
+<div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-all hover:-translate-y-2">
+<div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-6">
+<i class="ri-computer-line text-white text-2xl"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Computer Services</h3>
+<p class="text-gray-600 mb-6">Keep your computer systems running at peak performance with our comprehensive maintenance and support services.</p>
+<ul class="space-y-3 text-gray-700">
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Hardware and software troubleshooting and repair</span>
+</li>
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>System upgrades and performance optimization</span>
+</li>
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Virus removal and comprehensive data recovery</span>
+</li>
+</ul>
+</div>
+<div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-all hover:-translate-y-2">
+<div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-6">
+<i class="ri-wifi-line text-white text-2xl"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Network Solutions</h3>
+<p class="text-gray-600 mb-6">Build robust, secure network infrastructure that connects your business and enhances productivity.</p>
+<ul class="space-y-3 text-gray-700">
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>LAN/WAN installation and professional configuration</span>
+</li>
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Wireless network setup and ongoing management</span>
+</li>
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Network monitoring and advanced security solutions</span>
+</li>
+</ul>
+</div>
+<div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-all hover:-translate-y-2">
+<div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-6">
+<i class="ri-printer-line text-white text-2xl"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Printer Services</h3>
+<p class="text-gray-600 mb-6">Maintain your office printing equipment with expert repair, maintenance, and supply services.</p>
+<ul class="space-y-3 text-gray-700">
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Professional printer repair and servicing</span>
+</li>
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Cartridge refilling and replacement services</span>
+</li>
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Maintenance contracts for offices and educational institutions</span>
+</li>
+</ul>
+</div>
+<div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-all hover:-translate-y-2">
+<div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-6">
+<i class="ri-customer-service-2-line text-white text-2xl"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">IT Support & Consulting</h3>
+<p class="text-gray-600 mb-6">Get expert guidance and round-the-clock support to keep your technology infrastructure running smoothly.</p>
+<ul class="space-y-3 text-gray-700">
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>24/7 technical support and system maintenance</span>
+</li>
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Comprehensive IT audits and infrastructure planning</span>
+</li>
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Professional advice on technology investments and upgrades</span>
+</li>
+</ul>
+</div>
+<div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-all hover:-translate-y-2">
+<div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-6">
+<i class="ri-camera-line text-white text-2xl"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Digital Media Services</h3>
+<p class="text-gray-600 mb-6">Enhance your brand presence with professional digital media solutions and creative content services.</p>
+<ul class="space-y-3 text-gray-700">
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Digital media management and strategy development</span>
+</li>
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Professional photography and video production</span>
+</li>
+<li class="flex items-start space-x-3">
+<i class="ri-check-line text-primary mt-1"></i>
+<span>Graphic design and creative content creation</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Service Process -->
+<section class="py-20 bg-gray-50">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-secondary mb-4">Our Service Process</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">We follow a systematic approach to ensure every project is completed efficiently and to the highest standards.</p>
+</div>
+<div class="grid md:grid-cols-4 gap-8">
+<div class="text-center">
+<div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="text-2xl font-bold text-white">1</span>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Consultation</h3>
+<p class="text-gray-600">We assess your needs and provide tailored recommendations for your IT requirements.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="text-2xl font-bold text-white">2</span>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Planning</h3>
+<p class="text-gray-600">We develop a comprehensive plan with timelines, resources, and deliverables.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="text-2xl font-bold text-white">3</span>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Implementation</h3>
+<p class="text-gray-600">Our expert team executes the solution with precision and attention to detail.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="text-2xl font-bold text-white">4</span>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Support</h3>
+<p class="text-gray-600">We provide ongoing maintenance and support to ensure optimal performance.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-20 bg-secondary">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<h2 class="text-4xl font-bold text-white mb-6">Ready to Transform Your Business?</h2>
+<p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Let's discuss how our IT solutions can help drive your business forward and achieve your digital transformation goals.</p>
+<button class="bg-primary text-white px-10 py-4 !rounded-button whitespace-nowrap font-semibold text-lg hover:bg-red-700 transition-colors" onclick="showPage('contact')">
+Get Free Consultation
+</button>
+</div>
+</section>
+</div>
+<!-- Team Page -->
+<div id="team" class="page">
+<!-- Hero Section -->
+<section class="hero-gradient relative min-h-[500px] flex items-center">
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://readdy.ai/api/search-image?query=diverse%20professional%20team%20of%20IT%20experts%20working%20together%20in%20modern%20office%2C%20skilled%20technicians%20and%20developers%20collaborating%2C%20multiple%20workstations%20with%20computers%20and%20technology%2C%20professional%20teamwork%20environment%2C%20blue%20and%20teal%20lighting%20theme%2C%20African%20business%20professionals%20in%20technology%20workspace&width=1920&height=500&seq=teamherobg001&orientation=landscape'); background-blend-mode: overlay; background-color: rgba(15, 76, 129, 0.85);"></div>
+<div class="relative max-w-7xl mx-auto px-6 w-full text-center">
+<h1 class="text-5xl lg:text-6xl font-bold text-white mb-6">Our <span class="text-red-400">Team</span></h1>
+<p class="text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">Meet the experienced professionals driving CodeRed Solutions forward with expertise, innovation, and dedication to client success.</p>
+</div>
+</section>
+<!-- Leadership Team -->
+<section class="py-20 bg-white">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-secondary mb-4">Leadership Team</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">Our experienced directors bring years of expertise and a shared vision for excellence in IT solutions.</p>
+</div>
+<div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+<div class="bg-gray-50 p-10 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-32 h-32 rounded-full overflow-hidden mx-auto mb-8 border-4 border-primary shadow-lg">
+<img src="https://static.readdy.ai/image/0c620877c55c589905a6ff5b1c5bedeb/7d8141ba49b0e2ba69ecc55feed1135a.jpeg" alt="Qinisani Mhlanga" class="w-full h-full object-cover object-top">
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-2">Qinisani Mhlanga</h3>
+<p class="text-primary font-semibold text-lg mb-6">Director & Co-Founder</p>
+<p class="text-gray-600 mb-6 leading-relaxed">Leading CodeRed Solutions with a vision for digital transformation and innovative IT solutions across Eswatini.</p>
+<div class="space-y-3 text-gray-700">
+<div class="flex items-center justify-center space-x-3">
+<i class="ri-phone-line text-primary text-lg"></i>
+<span class="font-medium">76565534 / 79565534</span>
+</div>
+<div class="flex items-center justify-center space-x-3">
+<i class="ri-mail-line text-primary text-lg"></i>
+<span class="text-sm">qinisani@coderedsolution.com</span>
+</div>
+<div class="flex justify-center space-x-3 mt-4">
+<a href="https://wa.me/26876565534" target="_blank" class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+<i class="ri-whatsapp-fill text-sm"></i>
+</a>
+<a href="https://www.linkedin.com/in/qinisani-mhlanga-569285294/" target="_blank" class="w-8 h-8 bg-blue-700 text-white rounded-full flex items-center justify-center hover:bg-blue-800 transition-colors">
+<i class="ri-linkedin-fill text-sm"></i>
+</a>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 p-10 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-32 h-32 rounded-full overflow-hidden mx-auto mb-8 border-4 border-primary shadow-lg">
+<img src="https://static.readdy.ai/image/0c620877c55c589905a6ff5b1c5bedeb/f9b7afeecccad0db0981b808ff6eb3cf.jpeg" alt="Lungelo Simelane" class="w-full h-full object-cover object-top">
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-2">Lungelo Simelane</h3>
+<p class="text-primary font-semibold text-lg mb-6">Director & Co-Founder</p>
+<p class="text-gray-600 mb-6 leading-relaxed">Co-leading our mission to deliver professional, affordable IT services that empower businesses to thrive in the digital era.</p>
+<div class="space-y-3 text-gray-700">
+<div class="flex items-center justify-center space-x-3">
+<i class="ri-phone-line text-primary text-lg"></i>
+<span class="font-medium">78361282 / 79361282</span>
+</div>
+<div class="flex items-center justify-center space-x-3">
+<i class="ri-mail-line text-primary text-lg"></i>
+<span class="text-sm">lungelo@coderedsolution.com</span>
+</div>
+<div class="flex justify-center space-x-3 mt-4">
+<a href="https://wa.me/26878361282" target="_blank" class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+<i class="ri-whatsapp-fill text-sm"></i>
+</a>
+<a href="https://www.linkedin.com/in/lungelo-simelane-935538318/" target="_blank" class="w-8 h-8 bg-blue-700 text-white rounded-full flex items-center justify-center hover:bg-blue-800 transition-colors">
+<i class="ri-linkedin-fill text-sm"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Team Expertise -->
+<section class="py-20 bg-gray-50">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-secondary mb-4">Our Expertise</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">Our team combines technical skills, industry experience, and creative problem-solving to deliver exceptional results.</p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-code-s-slash-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Software Development</h3>
+<p class="text-gray-600">Expert developers creating custom solutions using modern technologies and best practices.</p>
+</div>
+<div class="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-shield-check-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Network Security</h3>
+<p class="text-gray-600">Certified security specialists ensuring your network infrastructure is protected and resilient.</p>
+</div>
+<div class="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-tools-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Technical Support</h3>
+<p class="text-gray-600">Experienced technicians providing comprehensive support and maintenance services.</p>
+</div>
+<div class="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-lightbulb-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Innovation</h3>
+<p class="text-gray-600">Forward-thinking professionals staying ahead of technology trends and emerging solutions.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Team Values -->
+<section class="py-20 bg-white">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-secondary mb-4">What Drives Our Team</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">Our shared values and commitment to excellence make us a trusted partner for businesses across Eswatini.</p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-award-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Qualified Professionals</h3>
+<p class="text-gray-600">Skilled and certified IT experts with practical experience across multiple technology domains and industries.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-price-tag-3-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Value-Driven Service</h3>
+<p class="text-gray-600">Delivering maximum value through competitive pricing and flexible service agreements tailored to client needs.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-trophy-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Proven Track Record</h3>
+<p class="text-gray-600">Growing portfolio of successful projects and satisfied clients who trust us with their technology needs.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-map-pin-line text-white text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-secondary mb-4">Local Expertise</h3>
+<p class="text-gray-600">Deep understanding of Eswatini business environment combined with international quality standards.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Join Our Team CTA -->
+<section class="py-20 bg-secondary">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<h2 class="text-4xl font-bold text-white mb-6">Join Our Growing Team</h2>
+<p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Are you passionate about technology and helping businesses succeed? We're always looking for talented individuals to join our mission.</p>
+<button class="bg-primary text-white px-10 py-4 !rounded-button whitespace-nowrap font-semibold text-lg hover:bg-red-700 transition-colors" onclick="showPage('contact')">
+Get In Touch
+</button>
+</div>
+</section>
+</div>
+<!-- Contact Page -->
+<div id="contact" class="page">
+<!-- Hero Section -->
+<section class="hero-gradient relative min-h-[500px] flex items-center">
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://readdy.ai/api/search-image?query=modern%20customer%20service%20center%20with%20professional%20staff%20answering%20phones%20and%20emails%2C%20friendly%20business%20communication%20environment%2C%20multiple%20communication%20channels%20including%20phone%20headsets%20and%20computer%20screens%2C%20welcoming%20office%20atmosphere%20with%20blue%20corporate%20branding%2C%20customer%20support%20representatives%20helping%20clients%2C%20professional%20consultation%20setting&width=1920&height=500&seq=contactherobg002&orientation=landscape'); background-blend-mode: overlay; background-color: rgba(15, 76, 129, 0.85);"></div>
+<div class="relative max-w-7xl mx-auto px-6 w-full text-center">
+<h1 class="text-5xl lg:text-6xl font-bold text-white mb-6">Contact <span class="text-red-400">Us</span></h1>
+<p class="text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">Ready to transform your business with professional IT solutions? Get in touch with our expert team today.</p>
+</div>
+</section>
+<!-- Contact Information -->
+<section class="py-12 sm:py-16 lg:py-20 bg-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6">
+<div class="grid lg:grid-cols-2 gap-8 lg:gap-16">
+<div>
+<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-secondary mb-6 sm:mb-8 text-center lg:text-left">Get In Touch</h2>
+<p class="text-lg text-gray-600 mb-12 leading-relaxed">
+Ready to discuss your IT needs? Our team is here to help you find the perfect technology solutions for your business. Contact us through any of the methods below.
+</p>
+<div class="space-y-8">
+<div class="flex items-start space-x-4">
+<div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center flex-shrink-0">
+<i class="ri-phone-line text-white text-xl"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold text-secondary mb-2">Phone Number</h3>
+<p class="text-gray-600 mb-2">Call us during business hours for immediate assistance</p>
+<div class="space-y-1">
+<p class="text-primary font-semibold">+268 76617019</p>
+</div>
+<div class="flex space-x-2 mt-3">
+<a href="https://wa.me/26876617019" target="_blank" class="flex items-center space-x-2 bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors text-sm">
+<i class="ri-whatsapp-fill"></i>
+<span>WhatsApp</span>
+</a>
+<a href="tel:+26876617019" class="flex items-center space-x-2 bg-primary text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+<i class="ri-phone-fill"></i>
+<span>Call</span>
+</a>
+</div>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center flex-shrink-0">
+<i class="ri-mail-line text-white text-xl"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold text-secondary mb-2">Email Address</h3>
+<p class="text-gray-600 mb-2">Send us your questions or project requirements</p>
+<p class="text-primary font-semibold">info@coderedsolution.com</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center flex-shrink-0">
+<i class="ri-map-pin-line text-white text-xl"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold text-secondary mb-2">Location</h3>
+<p class="text-gray-600 mb-2">Visit us at our office location</p>
+<div class="text-secondary">
+<p class="font-semibold">Millers Mansion, 4th Floor</p>
+<p class="font-semibold">Office 408, Unnamed Road</p>
+<p class="font-semibold">Mbabane, Eswatini</p>
+</div>
+</div>
+</div>
+</修改前>
+<div class="flex items-start space-x-4">
+<div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center flex-shrink-0">
+<i class="ri-time-line text-white text-xl"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold text-secondary mb-2">Business Hours</h3>
+<p class="text-gray-600 mb-2">Our team is available during standard business hours</p>
+<div class="text-secondary">
+<p>Monday - Friday: 8:00 AM - 5:00 PM</p>
+<p>Saturday: 9:00 AM - 1:00 PM</p>
+<p class="text-primary font-semibold">24/7 Emergency Support Available</p>
+</div>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center flex-shrink-0">
+<i class="ri-share-line text-white text-xl"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold text-secondary mb-2">Social Media</h3>
+<p class="text-gray-600 mb-4">Connect with us on social platforms</p>
+<div class="flex space-x-3">
+<a href="https://wa.me/26876617019" target="_blank" class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+<i class="ri-whatsapp-fill"></i>
+</a>
+<a href="https://www.facebook.com/profile.php?id=61567758114395" target="_blank" class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+<i class="ri-facebook-fill"></i>
+</a>
+<a href="https://instagram.com/coderedsolutions_sz" target="_blank" class="w-10 h-10 bg-pink-500 text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors">
+<i class="ri-instagram-fill"></i>
+</a>
+<a href="https://www.linkedin.com/company/codered-solutions23/" target="_blank" class="w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center hover:bg-blue-800 transition-colors">
+<i class="ri-linkedin-fill"></i>
+</a>
+<a href="https://tiktok.com/@coderedsolutions" target="_blank" class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors">
+<i class="ri-tiktok-fill"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Contact Form -->
+<div class="bg-gray-50 p-6 sm:p-8 lg:p-10 rounded-xl">
+<h3 class="text-xl sm:text-2xl font-bold text-secondary mb-4 sm:mb-6 text-center lg:text-left">Send Us a Message</h3>
+<form id="contactForm" class="space-y-4 sm:space-y-6">
+<div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
+<div>
+<label for="firstName" class="block text-xs sm:text-sm font-semibold text-secondary mb-2">First Name *</label>
+<input type="text" id="firstName" name="firstName" required class="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+</div>
+<div>
+<label for="lastName" class="block text-xs sm:text-sm font-semibold text-secondary mb-2">Last Name *</label>
+<input type="text" id="lastName" name="lastName" required class="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+</div>
+</div>
+<div>
+<label for="email" class="block text-sm font-semibold text-secondary mb-2">Email Address *</label>
+<input type="email" name="email" id="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+</div>
+<div>
+<label for="phone" class="block text-sm font-semibold text-secondary mb-2">Phone Number</label>
+<input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+</div>
+<div>
+<label for="service" class="block text-sm font-semibold text-secondary mb-2">Service of Interest</label>
+<select id="service" name="service" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-8">
+<option value="">Select a service...</option>
+<option value="software-development">Software Development</option>
+<option value="computer-services">Computer Services</option>
+<option value="networking">Network Solutions</option>
+<option value="printer-services">Printer Services</option>
+<option value="it-support">IT Support & Consulting</option>
+<option value="media-services">Digital Media Services</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div>
+<label for="message" class="block text-sm font-semibold text-secondary mb-2">Message *</label>
+<textarea id="message" name="message" rows="5" maxlength="500" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none" placeholder="Tell us about your project or requirements..."></textarea>
+<div id="messageCount" class="text-right text-sm text-gray-500 mt-1">0/500 characters</div>
+</div>
+<button type="submit" class="w-full bg-primary text-white py-3 sm:py-4 !rounded-button whitespace-nowrap font-semibold text-base sm:text-lg hover:bg-red-700 transition-colors">
+Send Message
+</button>
+</form>
+<div id="formStatus" class="hidden mt-4 p-4 rounded-lg"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Map Section -->
+<section class="py-12 sm:py-16 lg:py-20 bg-gray-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6">
+<div class="text-center mb-8 sm:mb-12">
+<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-secondary mb-3 sm:mb-4">Find Us Here</h2>
+<p class="text-base sm:text-lg lg:text-xl text-gray-600">Visit our office at Millers Mansion in Mbabane</p>
+</div>
+<div class="bg-white rounded-xl shadow-lg overflow-hidden">
+<div class="grid lg:grid-cols-3 gap-0">
+<div class="lg:col-span-2">
+<div class="w-full h-64 sm:h-80 lg:h-96 bg-cover bg-center bg-no-repeat relative overflow-hidden" style="background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png');">
+<div class="absolute inset-0 bg-black bg-opacity-10"></div>
+<div class="absolute top-4 left-4 bg-white px-3 py-2 rounded-lg shadow-md">
+<div class="flex items-center space-x-2">
+<i class="ri-map-pin-fill text-primary"></i>
+<span class="font-semibold text-secondary text-sm">Millers Mansion Location</span>
+</div>
+</div>
+<!-- Main Location Pin -->
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+<div class="relative">
+<!-- Pulsing Circle Animation -->
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-primary bg-opacity-30 rounded-full animate-ping"></div>
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-primary bg-opacity-50 rounded-full animate-pulse"></div>
+<!-- Pin Shadow -->
+<div class="absolute top-10 left-1/2 transform -translate-x-1/2 w-10 h-5 bg-black bg-opacity-30 rounded-full blur-sm"></div>
+<!-- Main Pin -->
+<div class="relative w-14 h-14 bg-gradient-to-b from-primary to-secondary border-4 border-white rounded-full shadow-xl flex items-center justify-center z-10">
+<i class="ri-building-fill text-white text-xl"></i>
+</div>
+<!-- Pin Pointer -->
+<div class="absolute top-11 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-6 border-r-6 border-t-8 border-l-transparent border-r-transparent border-t-primary shadow-lg"></div>
+</div>
+</div>
+<!-- Enhanced Location Info Popup -->
+<div class="absolute top-1/4 right-4 bg-white px-4 py-4 rounded-xl shadow-xl border border-gray-100 max-w-56">
+<div class="flex items-start space-x-3">
+<div class="w-8 h-8 bg-primary bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
+<i class="ri-building-fill text-primary text-sm"></i>
+</div>
+<div>
+<p class="font-bold text-secondary text-sm mb-1">CodeRed Solutions</p>
+<p class="text-xs text-gray-700 font-semibold">Millers Mansion</p>
+<p class="text-xs text-gray-600">4th Floor, Office 408</p>
+<p class="text-xs text-gray-600">Unnamed Road</p>
+<p class="text-xs text-gray-600 mb-2">Mbabane, Eswatini</p>
+<div class="flex items-center space-x-1 text-xs text-primary font-medium">
+<i class="ri-phone-line text-xs"></i>
+<span>+268 76617019</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Direction Arrow -->
+<div class="absolute bottom-4 left-4 bg-primary text-white px-3 py-2 rounded-lg shadow-lg">
+<div class="flex items-center space-x-2">
+<i class="ri-navigation-line text-white"></i>
+<span class="text-xs font-medium">Navigate Here</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 sm:p-8 flex flex-col justify-center">
+<h3 class="text-xl sm:text-2xl font-bold text-secondary mb-4">Visit Our Office</h3>
+<div class="space-y-3 text-gray-700 mb-6">
+<div class="flex items-start space-x-3">
+<i class="ri-building-line text-primary mt-1"></i>
+<div>
+<p class="font-semibold">Millers Mansion</p>
+<p class="text-sm text-gray-600">4th Floor, Office 408</p>
+</div>
+</div>
+<div class="flex items-start space-x-3">
+<i class="ri-map-pin-line text-primary mt-1"></i>
+<div>
+<p class="font-semibold">Mbabane, Eswatini</p>
+<p class="text-sm text-gray-600">Central business district location</p>
+</div>
+</div>
+<div class="flex items-start space-x-3">
+<i class="ri-time-line text-primary mt-1"></i>
+<div>
+<p class="font-semibold">Office Hours</p>
+<p class="text-sm text-gray-600">Mon-Fri: 8AM-5PM</p>
+<p class="text-sm text-gray-600">Sat: 9AM-1PM</p>
+</div>
+</div>
+</div>
+<div class="space-y-3">
+<a href="https://maps.google.com/?q=Millers+Mansion,+4th+Floor,+Office+408,+Unnamed+Road,+Mbabane,+Eswatini" target="_blank" class="w-full bg-primary text-white py-3 px-4 !rounded-button whitespace-nowrap font-semibold text-sm hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2">
+<i class="ri-navigation-line"></i>
+<span>Get Directions</span>
+</a>
+<button onclick="showPage('contact')" class="w-full border-2 border-primary text-primary py-3 px-4 !rounded-button whitespace-nowrap font-semibold text-sm hover:bg-primary hover:text-white transition-colors">
+Contact Us
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Our Clients Section -->
+<section class="py-20 bg-white">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-secondary mb-4">Our Clients</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">We serve a diverse range of clients across Eswatini, from individual users to large organizations.</p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
+<div class="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-user-line text-white text-2xl"></i>
+</div>
+<h3 class="text-lg font-bold text-secondary">Individual Clients</h3>
+<p class="text-gray-600 text-sm mt-2">Personal IT support and solutions</p>
+</div>
+<div class="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-building-line text-white text-2xl"></i>
+</div>
+<h3 class="text-lg font-bold text-secondary">Businesses</h3>
+<p class="text-gray-600 text-sm mt-2">Enterprise IT infrastructure and support</p>
+</div>
+<div class="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-government-line text-white text-2xl"></i>
+</div>
+<h3 class="text-lg font-bold text-secondary">Government</h3>
+<p class="text-gray-600 text-sm mt-2">Public sector technology solutions</p>
+</div>
+<div class="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-school-line text-white text-2xl"></i>
+</div>
+<h3 class="text-lg font-bold text-secondary">Educational Institutions</h3>
+<p class="text-gray-600 text-sm mt-2">Academic technology infrastructure</p>
+</div>
+<div class="bg-white p-8 rounded-xl text-center hover:shadow-lg transition-shadow">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+<i class="ri-church-line text-white text-2xl"></i>
+</div>
+<h3 class="text-lg font-bold text-secondary">Churches</h3>
+<p class="text-gray-600 text-sm mt-2">Religious organization IT support</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer -->
+<footer class="bg-secondary text-white py-8 sm:py-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6">
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
+<div class="sm:col-span-2 lg:col-span-1">
+<div class="flex items-center justify-center sm:justify-start space-x-3 mb-4">
+<img src="https://static.readdy.ai/image/0c620877c55c589905a6ff5b1c5bedeb/9eeb458ee0e24da8b60be02283ff7ed3.png" alt="CodeRed Solutions" class="w-8 h-8 sm:w-10 sm:h-10 object-contain">
+<h3 class="text-lg sm:text-xl font-bold">CodeRed Solutions</h3>
+</div>
+<p class="text-gray-300 text-xs sm:text-sm leading-relaxed text-center sm:text-left">Professional IT services for the digital era. Driving transformation across Eswatini and beyond.</p>
+</div>
+<div class="text-center sm:text-left">
+<h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Quick Links</h4>
+<ul class="space-y-2">
+<li><a href="#" onclick="showPage('home')" class="text-gray-300 hover:text-white transition-colors text-sm">Home</a></li>
+<li><a href="#" onclick="showPage('about')" class="text-gray-300 hover:text-white transition-colors text-sm">About Us</a></li>
+<li><a href="#" onclick="showPage('services')" class="text-gray-300 hover:text-white transition-colors text-sm">Services</a></li>
+<li><a href="#" onclick="showPage('team')" class="text-gray-300 hover:text-white transition-colors text-sm">Team</a></li>
+</ul>
+</div>
+<div class="text-center sm:text-left">
+<h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Services</h4>
+<ul class="space-y-2 text-xs sm:text-sm">
+<li class="text-gray-300">Software Development</li>
+<li class="text-gray-300">Network Solutions</li>
+<li class="text-gray-300">IT Support</li>
+<li class="text-gray-300">Digital Media</li>
+</ul>
+</div>
+<div class="text-center sm:text-left">
+<h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Contact Info</h4>
+<div class="space-y-2 sm:space-y-3 text-xs sm:text-sm">
+<div class="flex items-center justify-center sm:justify-start space-x-2">
+<i class="ri-phone-line text-primary"></i>
+<span class="text-gray-300">+268 76617019</span>
+</div>
+<div class="flex items-center justify-center sm:justify-start space-x-2">
+<i class="ri-mail-line text-primary"></i>
+<span class="text-gray-300 break-all">info@coderedsolution.com</span>
+</div>
+<div class="flex items-start justify-center sm:justify-start space-x-2">
+<i class="ri-map-pin-line text-primary mt-1"></i>
+<div class="text-gray-300">
+<div>Millers Mansion, 4th Floor</div>
+<div>Office 408, Unnamed Road</div>
+<div>Mbabane, Eswatini</div>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<h5 class="text-sm font-semibold mb-3">Follow Us</h5>
+<div class="flex justify-center sm:justify-start space-x-3">
+<a href="https://wa.me/26876617019" target="_blank" class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
+<i class="ri-whatsapp-fill text-sm"></i>
+</a>
+<a href="https://www.facebook.com/profile.php?id=61567758114395" target="_blank" class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+<i class="ri-facebook-fill text-sm"></i>
+</a>
+<a href="https://instagram.com/coderedsolutions_sz" target="_blank" class="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors">
+<i class="ri-instagram-fill text-sm"></i>
+</a>
+<a href="https://www.linkedin.com/company/codered-solutions23/" target="_blank" class="w-8 h-8 bg-blue-700 text-white rounded-full flex items-center justify-center hover:bg-blue-800 transition-colors">
+<i class="ri-linkedin-fill text-sm"></i>
+</a>
+<a href="https://www.tiktok.com/@codered.solutions?_r=1&_t=ZS-93QmEdwYmo4" target="_blank" class="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors">
+<i class="ri-tiktok-fill text-sm"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-700 pt-4 sm:pt-6 text-center">
+<p class="text-gray-400 text-xs sm:text-sm">© 2025 CodeRed Solutions. All rights reserved. | Professional IT Services in Eswatini</p>
+</div>
+</div>
+</footer>
+<!-- Chatbot Widget -->
+<div class="chatbot-container">
+<div id="chatbotWidget" class="chatbot-widget">
+<div class="chatbot-header">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+<i class="ri-robot-line text-white text-lg"></i>
+</div>
+<div>
+<h4 class="font-semibold">CodeRed Assistant</h4>
+<p class="text-xs text-white/80">Online • Ready to help</p>
+</div>
+</div>
+<button onclick="toggleChatbot()" class="text-white/80 hover:text-white transition-colors">
+<i class="ri-close-line text-xl"></i>
+</button>
+</div>
+</div>
+<div id="chatbotMessages" class="chatbot-messages">
+<div class="message bot">
+👋 Hello! I'm the CodeRed Solutions assistant. How can I help you today?
+</div>
+<div class="flex flex-wrap gap-2 mt-4">
+<button onclick="sendQuickMessage('What services do you offer?')" class="px-3 py-2 bg-white border border-gray-200 rounded-full text-sm text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap">
+What services do you offer?
+</button>
+<button onclick="sendQuickMessage('How can I contact you?')" class="px-3 py-2 bg-white border border-gray-200 rounded-full text-sm text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap">
+How can I contact you?
+</button>
+<button onclick="sendQuickMessage('Tell me about your team')" class="px-3 py-2 bg-white border border-gray-200 rounded-full text-sm text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap">
+Tell me about your team
+</button>
+</div>
+</div>
+<div class="chatbot-input-area">
+<div class="flex space-x-2">
+<input type="text" id="chatbotInput" placeholder="Type your message..." class="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-primary focus:border-transparent text-sm" onkeypress="handleChatKeyPress(event)">
+<button onclick="sendChatMessage()" class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+<i class="ri-send-plane-line"></i>
+</button>
+</div>
+</div>
+</div>
+<button id="chatbotToggle" onclick="toggleChatbot()" class="chatbot-toggle pulse">
+<i class="ri-chat-3-line"></i>
+</button>
+</div>
+<script id="page-navigation">
+document.addEventListener('DOMContentLoaded', function() {
+window.showPage = function(pageName) {
+// Hide all pages
+const pages = document.querySelectorAll('.page');
+pages.forEach(page => page.classList.remove('active'));
+// Show selected page
+const targetPage = document.getElementById(pageName);
+if (targetPage) {
+targetPage.classList.add('active');
+}
+// Update navigation
+const navLinks = document.querySelectorAll('.nav-link');
+navLinks.forEach(link => link.classList.remove('active'));
+const activeLink = document.querySelector(`[onclick="showPage('${pageName}')"]`);
+if (activeLink && activeLink.classList.contains('nav-link')) {
+activeLink.classList.add('active');
+}
+// Scroll to top
+window.scrollTo({ top: 0, behavior: 'smooth' });
+// Close mobile menu if open
+const mobileMenu = document.getElementById('mobileMenu');
+if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+mobileMenu.classList.add('hidden');
+}
+};
+window.toggleMobileMenu = function() {
+const mobileMenu = document.getElementById('mobileMenu');
+if (mobileMenu) {
+mobileMenu.classList.toggle('hidden');
+}
+};
+// Initialize home page as active
+showPage('home');
+});
+</script>
+<script id="contact-form">
+document.addEventListener('DOMContentLoaded', function() {
+const contactForm = document.getElementById('contactForm');
+const messageTextarea = document.getElementById('message');
+const messageCount = document.getElementById('messageCount');
+const formStatus = document.getElementById('formStatus');
+if (messageTextarea && messageCount) {
+messageTextarea.addEventListener('input', function() {
+const currentLength = this.value.length;
+const maxLength = 500;
+messageCount.textContent = `${currentLength}/${maxLength} characters`;
+if (currentLength > maxLength) {
+this.value = this.value.substring(0, maxLength);
+messageCount.textContent = `${maxLength}/${maxLength} characters`;
+}
+});
+}
+if (contactForm) {
+contactForm.addEventListener('submit', function(e) {
+e.preventDefault();
+const formData = new FormData(this);
+const submitData = {};
+for (let [key, value] of formData.entries()) {
+submitData[key] = value;
+}
+// Show success message
+if (formStatus) {
+formStatus.className = 'mt-4 p-4 rounded-lg bg-green-50 border border-green-200';
+formStatus.innerHTML = '<div class="flex items-center space-x-2"><i class="ri-check-line text-green-600"></i><span class="text-green-800 font-medium">Thank you! Your message has been sent successfully. We\'ll get back to you soon.</span></div>';
+formStatus.classList.remove('hidden');
+}
+// Reset form
+this.reset();
+if (messageCount) {
+messageCount.textContent = '0/500 characters';
+}
+// Hide status after 5 seconds
+setTimeout(() => {
+if (formStatus) {
+formStatus.classList.add('hidden');
+}
+}, 5000);
+});
+}
+});
+</script>
+<script id="chatbot-functionality">
+document.addEventListener('DOMContentLoaded', function() {
+let chatbotOpen = false;
+const chatResponses = {
+'services': 'We offer comprehensive IT solutions including:\n• Software Development (Web & Mobile Apps)\n• Computer Services & Maintenance\n• Network Solutions & Security\n• Printer Services & Support\n• 24/7 IT Support & Consulting\n• Digital Media Services\n\nWould you like to know more about any specific service?',
+'contact': 'You can reach us through:\n📞 Phone: +268 76617019\n📧 Email: info@coderedsolution.com\n📍 Location: Eswatini\n🕒 Hours: Mon-Fri 8AM-5PM, Sat 9AM-1PM\n\nWe also provide 24/7 emergency support!',
+'team': 'Our expert team includes:\n• Qinisani Mhlanga - Director & Co-Founder\n• Lungelo Simelane - Director & Co-Founder\n\nWe have 5+ years of experience and certified IT professionals specializing in various technology domains.',
+'pricing': 'We offer competitive pricing with flexible service agreements to suit various budgets. Our rates vary depending on the service:\n• Consultation: Free initial assessment\n• Custom development: Project-based pricing\n• Support contracts: Monthly/yearly plans available\n\nContact us for a personalized quote!',
+'location': 'We are proudly based in Eswatini (Swaziland) and serve clients across the country. We combine local expertise with international quality standards.',
+'hours': 'Our business hours are:\n• Monday - Friday: 8:00 AM - 5:00 PM\n• Saturday: 9:00 AM - 1:00 PM\n• Sunday: Closed\n\n🚨 24/7 Emergency Support Available for critical issues!',
+'emergency': 'For emergency IT support, please call:\n📞 +268 76617019\n\nWe provide 24/7 emergency support to ensure your systems stay operational.',
+'default': 'I\'d be happy to help! You can ask me about:\n• Our services and solutions\n• Contact information\n• Our team and expertise\n• Pricing and quotes\n• Business hours\n• Emergency support\n\nWhat would you like to know?'
+};
+window.toggleChatbot = function() {
+const widget = document.getElementById('chatbotWidget');
+const toggle = document.getElementById('chatbotToggle');
+if (widget && toggle) {
+chatbotOpen = !chatbotOpen;
+if (chatbotOpen) {
+widget.classList.add('active');
+toggle.classList.remove('pulse');
+toggle.innerHTML = '<i class="ri-close-line"></i>';
+} else {
+widget.classList.remove('active');
+toggle.classList.add('pulse');
+toggle.innerHTML = '<i class="ri-chat-3-line"></i>';
+}
+}
+};
+window.sendChatMessage = function() {
+const input = document.getElementById('chatbotInput');
+const messages = document.getElementById('chatbotMessages');
+if (input && messages && input.value.trim()) {
+const userMessage = input.value.trim();
+addMessage(userMessage, 'user');
+input.value = '';
+setTimeout(() => {
+const botResponse = getBotResponse(userMessage);
+addMessage(botResponse, 'bot');
+}, 1000);
+}
+};
+window.sendQuickMessage = function(message) {
+const messages = document.getElementById('chatbotMessages');
+if (messages) {
+addMessage(message, 'user');
+setTimeout(() => {
+const botResponse = getBotResponse(message);
+addMessage(botResponse, 'bot');
+}, 1000);
+}
+};
+window.handleChatKeyPress = function(event) {
+if (event.key === 'Enter') {
+sendChatMessage();
+}
+};
+function addMessage(text, sender) {
+const messages = document.getElementById('chatbotMessages');
+if (messages) {
+const messageDiv = document.createElement('div');
+messageDiv.className = `message ${sender}`;
+messageDiv.textContent = text;
+messages.appendChild(messageDiv);
+messages.scrollTop = messages.scrollHeight;
+}
+}
+function getBotResponse(message) {
+const lowerMessage = message.toLowerCase();
+if (lowerMessage.includes('service') || lowerMessage.includes('what do you do') || lowerMessage.includes('offer')) {
+return chatResponses.services;
+} else if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('email') || lowerMessage.includes('reach')) {
+return chatResponses.contact;
+} else if (lowerMessage.includes('team') || lowerMessage.includes('staff') || lowerMessage.includes('who') || lowerMessage.includes('founder')) {
+return chatResponses.team;
+} else if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('rate') || lowerMessage.includes('quote')) {
+return chatResponses.pricing;
+} else if (lowerMessage.includes('location') || lowerMessage.includes('where') || lowerMessage.includes('address') || lowerMessage.includes('eswatini')) {
+return chatResponses.location;
+} else if (lowerMessage.includes('hour') || lowerMessage.includes('time') || lowerMessage.includes('open') || lowerMessage.includes('available')) {
+return chatResponses.hours;
+} else if (lowerMessage.includes('emergency') || lowerMessage.includes('urgent') || lowerMessage.includes('24/7')) {
+return chatResponses.emergency;
+} else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+return 'Hello! Welcome to CodeRed Solutions. I\'m here to help you with information about our IT services. What would you like to know?';
+} else if (lowerMessage.includes('thank') || lowerMessage.includes('thanks')) {
+return 'You\'re welcome! Is there anything else I can help you with today?';
+} else {
+return chatResponses.default;
+}
+}
+// Show chatbot after 5 seconds for new visitors
+setTimeout(() => {
+const toggle = document.getElementById('chatbotToggle');
+if (toggle && !chatbotOpen) {
+toggle.classList.add('pulse');
+}
+}, 5000);
+});
+</script>
+</body>
+</html>
